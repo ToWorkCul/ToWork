@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "965258772577-u8uljosb2qj555k35kh74v4cmhgpb0bu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.culproject.towork",
+            "certificate_hash": "6c5904b36d8db30beb87d70c3daa8234242d4997"
+          }
+        },
+        {
           "client_id": "965258772577-ekb67gen962nqvms6045v0rskvkoc2om.apps.googleusercontent.com",
           "client_type": 3
         }
