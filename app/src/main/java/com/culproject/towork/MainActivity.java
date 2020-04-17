@@ -23,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText textEmail;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private FirebaseAuth firebaseAuth;
+    private Map<String, Object> usersData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +61,17 @@ public class MainActivity extends AppCompatActivity {
         Log.d("TAG", "1Value is: ");
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("user/name");
+        DatabaseReference myRef = database.getReference("users");
 
-        myRef.setValue("Hello, World!");
+        //myRef.setValue("Edwin Polo");
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot data) {
                 // Get Post object and use the values to update the UI
-                String post = dataSnapshot.getValue(String.class);
-                Log.w("TAG", "ssss" + post);
+                Map<String, Object> map = (Map<String, Object>) data.getValue();
+                usersData = map;
+                Log.w("TAG", "ssss" + map.get("test1"));
                 // ...
             }
 
@@ -74,21 +79,13 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
                 Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
-                // ...
+                // TODO: Manejar escenario cuando falle
             }
         };
         myRef.addValueEventListener(postListener);
     }
 
-    private void updateUI(FirebaseUser currentUser) {
-    }
-
     public void registrar(View view) {
-        registrarUsuario();
-    }
-
-    private void registrarUsuario(){
-
         String email = textEmail.getText().toString().trim();
         String password = textPassword.getText().toString().trim();
 
@@ -123,6 +120,25 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    public void ingresar(View view) {
+
+        String email = textEmail.getText().toString().trim();
+        String password = textPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "Ingresar Email", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+        String user1 = usersData.get("test1").toString();
+        Log.w("TAG", "user data" + user1);
+
+        if (user1.toLowerCase().contains(email.toLowerCase())) {
+            //Intent to go to test1 user activity according the role
+        }
     }
 
 
