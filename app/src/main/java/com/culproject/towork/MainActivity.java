@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -58,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Log.d("TAG", "1Value is: ");
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users");
 
@@ -71,14 +70,14 @@ public class MainActivity extends AppCompatActivity {
                 // Get Post object and use the values to update the UI
                 Map<String, Object> map = (Map<String, Object>) data.getValue();
                 usersData = map;
-                Log.w("TAG", "ssss" + map.get("test1"));
+                Log.w("TAG", "Exitoso: Data: " + map);
                 // ...
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
-                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                Log.w("TAG", "Cancelado", databaseError.toException());
                 // TODO: Manejar escenario cuando falle
             }
         };
@@ -128,17 +127,32 @@ public class MainActivity extends AppCompatActivity {
         String password = textPassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Ingresar Email", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Intenta con 'Edwin' (Admin) o con 'Jorge' (User)", Toast.LENGTH_LONG).show();
             return;
         }
 
+        //TODO: Crear objeto user con constructor para pasarle el user data y armar el usuario
+        Object userObject1 = usersData.get("test1");
+        Map<String, Object> userData1 = (Map<String, Object>) userObject1;
 
-        String user1 = usersData.get("test1").toString();
-        Log.w("TAG", "user data" + user1);
+        Object userObject2 = usersData.get("test2");
+        Map<String, Object> userData2 = (Map<String, Object>) userObject2;
 
-        if (user1.toLowerCase().contains(email.toLowerCase())) {
-            //Intent to go to test1 user activity according the role
+        if (userData1.containsValue(email)) {
+            Intent intent = new Intent(this, ServicerHomeActivity.class);
+            intent.putExtra("userData", userData1.toString());
+            startActivity(intent);
+            return;
         }
+
+        if (userData2.containsValue(email)) {
+            Intent intent = new Intent(this, SeekerHomeActivity.class);
+            intent.putExtra("userData", userData2.toString());
+            startActivity(intent);
+            return;
+        }
+
+        Toast.makeText(this, "Intenta con 'Edwin' (Admin) o con 'Jorge' (User)", Toast.LENGTH_LONG).show();
     }
 
 
