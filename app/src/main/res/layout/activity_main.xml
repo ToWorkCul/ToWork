@@ -20,11 +20,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/txtEmail"
+            android:id="@+id/txtUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Ingrese Email"
+            android:hint="Ingrese Usuario"
             android:inputType="textEmailAddress"
             android:textColorHighlight="#070707"
             android:textColorLink="#0C0C0C" />

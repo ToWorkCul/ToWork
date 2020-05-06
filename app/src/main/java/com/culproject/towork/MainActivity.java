@@ -17,19 +17,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText textEmail;
+    private EditText textUsuario;
     private EditText textPassword;
     private Button btnRegistrar;
     private ProgressDialog progressDialog;
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        textEmail = findViewById(R.id.txtEmail);
+        textUsuario = findViewById(R.id.txtUsuario);
         textPassword = findViewById(R.id.txtPass);
 
         btnRegistrar = findViewById(R.id.btnSignUp);
@@ -85,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registrar(View view) {
-        String email = textEmail.getText().toString().trim();
+        String email = textUsuario.getText().toString().trim();
         String password = textPassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
@@ -110,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         //checking if success
                         if(task.isSuccessful()){
 
-                            Toast.makeText(MainActivity.this,"Se ha registrado el usuario con el email: "+ textEmail.getText(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this,"Se ha registrado el usuario con el email: "+ textUsuario.getText(),Toast.LENGTH_LONG).show();
                         }else{
 
                             Toast.makeText(MainActivity.this,"No se pudo registrar el usuario ",Toast.LENGTH_LONG).show();
@@ -123,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void ingresar(View view) {
 
-        String email = textEmail.getText().toString().trim();
+        String email = textUsuario.getText().toString().trim();
         String password = textPassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
