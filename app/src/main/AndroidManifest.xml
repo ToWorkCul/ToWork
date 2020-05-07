@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ServicerHomeActivity"></activity>
+        <activity android:name=".CreateServiceActivity"></activity>
+        <activity android:name=".ServicerHomeActivity" />
         <activity android:name=".SeekerHomeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
