@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -16,6 +17,16 @@ import java.util.Map;
 public class SeekerHomeActivity extends AppCompatActivity {
 
     private TextView title;
+    private Button btnCreateRequest;
+
+    public View.OnClickListener createRequestListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getBaseContext(), CreateRequestActivity.class);
+            startActivity(intent);
+            return;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +52,9 @@ public class SeekerHomeActivity extends AppCompatActivity {
 
         title = (TextView) findViewById(R.id.seekerTitleTextView);
         title.setText("Bienvenido "+name+". Tu rol es de "+ role);
+
+        btnCreateRequest = (Button) findViewById(R.id.btnCreateRequest);
+        btnCreateRequest.setOnClickListener(createRequestListener);
     }
 
 }
