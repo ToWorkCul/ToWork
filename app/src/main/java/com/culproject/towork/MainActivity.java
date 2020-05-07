@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users");
 
-        //myRef.setValue("Edwin Polo");
+        myRef.child("test1").child("name").setValue("Edwin");
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, Object> map = (Map<String, Object>) data.getValue();
                 usersData = map;
                 Log.w("TAG", "Exitoso: Data: " + map);
+                Log.w("TAG", "E---->: " + map.values());
                 // ...
             }
 
@@ -155,3 +156,4 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+

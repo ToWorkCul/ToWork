@@ -10,6 +10,8 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ServicerHomeActivity extends AppCompatActivity {
@@ -40,5 +42,10 @@ public class ServicerHomeActivity extends AppCompatActivity {
 
         title = (TextView) findViewById(R.id.servicerTitleTextView);
         title.setText("Bienvenido "+name+". Tu rol es de "+ role);
+
+        List<Request> requests = new ArrayList<Request>();
+        requests.add(new Request());
+        requests.add(new Request());
+        requests.add(new Request());
     }
 }
