@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -12,11 +16,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.EventListener;
 import java.util.Map;
 
 public class ServicerHomeActivity extends AppCompatActivity {
 
     private TextView title;
+    private Button btnCreateService;
+
+    public View.OnClickListener createServiceListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getBaseContext(), CreateServiceActivity.class);
+            startActivity(intent);
+            return;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +58,15 @@ public class ServicerHomeActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.servicerTitleTextView);
         title.setText("Bienvenido "+name+". Tu rol es de "+ role);
 
+
+        btnCreateService = (Button) findViewById(R.id.CreateServicesButton);
+        btnCreateService.setOnClickListener(createServiceListener);
+
         List<Request> requests = new ArrayList<Request>();
         requests.add(new Request());
         requests.add(new Request());
         requests.add(new Request());
+
+
     }
 }

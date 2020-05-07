@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ToWork</string>
+    <string-array name="problem_sector_compute_array">
+        <item>Hardware</item>
+        <item>Software</item>
+    </string-array>
+
+    <string-array name="proplem_sector_array">
+        <item>Equipos De Computo</item>
+    </string-array>
 </resources>
