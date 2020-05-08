@@ -23,6 +23,7 @@ public class ServicerHomeActivity extends AppCompatActivity {
 
     private TextView title;
     private Button btnCreateService;
+    private Button btnLookRequests;
 
     public View.OnClickListener createServiceListener = new View.OnClickListener() {
         @Override
@@ -32,6 +33,16 @@ public class ServicerHomeActivity extends AppCompatActivity {
             return;
         }
     };
+
+    public View.OnClickListener lookRequestsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getBaseContext(), RequestListActivity.class);
+            startActivity(intent);
+            return;
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +72,9 @@ public class ServicerHomeActivity extends AppCompatActivity {
 
         btnCreateService = (Button) findViewById(R.id.CreateServicesButton);
         btnCreateService.setOnClickListener(createServiceListener);
+
+        btnLookRequests = (Button) findViewById(R.id.LookRequestsButton);
+        btnLookRequests.setOnClickListener(lookRequestsListener);
 
         List<Request> requests = new ArrayList<Request>();
         requests.add(new Request());

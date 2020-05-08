@@ -6,10 +6,10 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public class Request{
-    private String description;
-    private String price;
-    private String issueType;
-    private String summary;
+    private String description = "Descripcion";
+    private String price = "$200000";
+    private String issueType = "Hardware";
+    private String summary = "CPU no enciende";
 
     public Request(){}
 
