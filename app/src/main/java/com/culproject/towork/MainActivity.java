@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText textPassword;
     private Button btnRegistrar;
     private ProgressDialog progressDialog;
+    private View decorView;
 
     private FirebaseAuth firebaseAuth;
     private Map<String, Object> usersData;
@@ -47,9 +48,18 @@ public class MainActivity extends AppCompatActivity {
         textPassword = findViewById(R.id.txtPass);
 
         btnRegistrar = findViewById(R.id.btnSignUp);
-
         progressDialog = new ProgressDialog(this);
 
+        decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if (visibility == 0) {
+                    decorView.setSystemUiVisibility(hideSystemBars());
+                }
+            }
+        });
 
     }
 
@@ -65,12 +75,9 @@ public class MainActivity extends AppCompatActivity {
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot data) {
-                // Get Post object and use the values to update the UI
-                Map<String, Object> map = (Map<String, Object>) data.getValue();
-                usersData = map;
-                Log.w("TAG", "Exitoso: Data: " + map);
-                Log.w("TAG", "E---->: " + map.values());
-                // ...
+                usersData = (Map<String, Object>) data.getValue();;
+                Log.w("TAG", "Exitoso: Data: " + usersData);
+                Log.w("TAG", "E---->: " + data.toString());
             }
 
             @Override
@@ -81,6 +88,23 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         myRef.addValueEventListener(postListener);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus)  {
+            decorView.setSystemUiVisibility(hideSystemBars());
+        }
+    }
+
+    private int hideSystemBars() {
+        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
 
     public void registrar(View view) {

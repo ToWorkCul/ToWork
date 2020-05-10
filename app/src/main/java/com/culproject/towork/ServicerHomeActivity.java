@@ -11,6 +11,13 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,6 +31,9 @@ public class ServicerHomeActivity extends AppCompatActivity {
     private TextView title;
     private Button btnCreateService;
     private Button btnLookRequests;
+    private FirebaseAuth firebaseAuth;
+
+    private Map<String, Object> usersData;
 
     public View.OnClickListener createServiceListener = new View.OnClickListener() {
         @Override
@@ -48,6 +58,8 @@ public class ServicerHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servicer_home);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -82,5 +94,31 @@ public class ServicerHomeActivity extends AppCompatActivity {
         requests.add(new Request());
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("requests");
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot data) {
+
+                Log.w("TAG", "Exitoso: Data: " + data);
+                Log.w("TAG", "E---->: " + data.getKey());
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "Cancelado", databaseError.toException());
+                // TODO: Manejar escenario cuando falle
+            }
+        };
+        myRef.addValueEventListener(postListener);
     }
 }
