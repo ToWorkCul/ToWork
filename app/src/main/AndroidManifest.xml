@@ -3,6 +3,10 @@
     package="com.culproject.towork">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -23,6 +27,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--Google Maps-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCJBv0oO9lfGpzdaYMekmpapyswSBlSUwo"/>
     </application>
+
+    <uses-feature
+        android:glEsVersion="0x0020000"
+        android:required="true"
+        />
 
 </manifest>

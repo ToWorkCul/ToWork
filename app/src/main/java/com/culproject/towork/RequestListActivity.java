@@ -2,16 +2,12 @@ package com.culproject.towork;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RequestListActivity extends AppCompatActivity {
 
@@ -52,7 +48,7 @@ public class RequestListActivity extends AppCompatActivity {
             convertView = getLayoutInflater().inflate(R.layout.request_card_layout, null);
             TextView textViewSector = (TextView) convertView.findViewById(R.id.textViewSector);
             TextView textViewTipo = (TextView) convertView.findViewById(R.id.textViewTipo);
-            TextView textViewDescripcion = (TextView) convertView.findViewById(R.id.textViewDescripcion);
+            TextView textViewDescripcion = (TextView) convertView.findViewById(R.id.textViewServiceDescripcion);
             TextView textViewPrecio = (TextView) convertView.findViewById(R.id.textViewPrecio);
 
             textViewSector.setText("Equipos de Computos");

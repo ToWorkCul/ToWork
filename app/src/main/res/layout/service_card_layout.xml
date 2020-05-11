@@ -1,53 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="#F4F5F6">
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="Tipo:"
-        app:layout_constraintStart_toEndOf="@+id/textViewSector"
-        app:layout_constraintTop_toTopOf="@+id/textViewSector" />
-
-    <TextView
-        android:id="@+id/textViewTipo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Valor"
-        app:layout_constraintStart_toEndOf="@+id/textView11"
-        app:layout_constraintTop_toTopOf="@+id/textView11" />
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="45dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
-        android:text="Sector:"
+        android:text="Nombre:"
         app:layout_constraintEnd_toStartOf="@+id/textViewSector"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewSector"
+        android:id="@+id/textViewServiceName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:text="Valor"
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/textViewServiceDescripcion"
+        android:id="@+id/textViewServiceDescription"
         android:layout_width="371dp"
         android:layout_height="20dp"
         android:layout_marginStart="21dp"
@@ -70,33 +52,17 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="10dp"
-        android:text="Precio:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewServiceDescripcion" />
-
-    <TextView
-        android:id="@+id/textViewPrecio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="Valor"
-        app:layout_constraintStart_toEndOf="@+id/textView16"
-        app:layout_constraintTop_toTopOf="@+id/textView16" />
-
-    <TextView
+        android:id="@+id/serviceCardLayout"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="50dp"
         android:background="@color/colorSecundary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPrecio" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewServiceDescription" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

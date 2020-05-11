@@ -18,6 +18,9 @@ public class TabViewPagerAdapter extends FragmentPagerAdapter {
         super(fm, behavior);
     }
 
+    public TabViewPagerAdapter(@NonNull FragmentManager fm) {
+        super(fm);
+    }
     @NonNull
     @Override
     public Fragment getItem(int position) {

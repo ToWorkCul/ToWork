@@ -154,6 +154,11 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        Log.w("TAG", "Mira--_->: " + usersData);
+        if (usersData == null) {
+            Toast.makeText(this,"Error de Red",Toast.LENGTH_LONG).show();
+            return;
+        }
         //TODO: Crear objeto user con constructor para pasarle el user data y armar el usuario
         Object userObject1 = usersData.get("test1");
         Map<String, Object> userData1 = (Map<String, Object>) userObject1;

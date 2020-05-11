@@ -4,42 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SeekerHomeActivity">
+    tools:context=".SeekerHomeActivity"><![CDATA[
+
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+    ]]>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/serviceViewPager"
+        android:layout_width="412dp"
+        android:layout_height="673dp"
+        android:layout_marginBottom="?attr/actionBarSize"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTabLayout"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/serviceTabLayout"
+        android:layout_width="409dp"
+        android:layout_height="59dp"
+        android:background="@color/cardview_light_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabIndicatorColor="@color/colorSecundary"
+        app:tabSelectedTextColor="@color/colorSecundary"
+        app:tabTextColor="@color/cardview_dark_background" />
 
     <TextView
         android:id="@+id/seekerTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="200dp"
+        android:alpha="0"
         android:text="Seeker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnCreateRequest"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="20dp"
-        android:text="Crear Solicitud"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekerTitleTextView" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="20dp"
-        android:alpha="0"
-        android:text="Ver Mapa de Servicios"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCreateRequest" />
 </androidx.constraintlayout.widget.ConstraintLayout>
