@@ -15,7 +15,8 @@ import androidx.fragment.app.Fragment;
 
 public class tabServicesList extends Fragment {
 
-    Service[] services = {new Service(), new Service(), new Service(), new Service(), new Service(), new Service()};
+    Service[] services = {new Service(), new Service(), new Service(), new Service(), new Service(), new Service(),
+            new Service(), new Service(), new Service(), new Service(), new Service(), new Service()};
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_services_list, container, false);
