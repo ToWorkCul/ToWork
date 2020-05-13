@@ -25,8 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Valor"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toTopOf="@+id/textView9" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintStart_toEndOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/textViewServiceDescription"

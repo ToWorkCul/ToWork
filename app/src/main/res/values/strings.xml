@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ToWork</string>
     <string name="crear_solicitud">Crear Solicitud</string>
+    <string name="crear_servicio">Crear servicio</string>
     <string-array name="problem_sector_compute_array">
         <item>Hardware</item>
         <item>Software</item>

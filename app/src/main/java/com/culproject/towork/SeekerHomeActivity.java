@@ -64,32 +64,20 @@ public class SeekerHomeActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.serviceTabLayout);
         viewPager = (ViewPager) findViewById(R.id.serviceViewPager);
+        title = (TextView) findViewById(R.id.seekerTitleTextView);
 
         tabLayout.setupWithViewPager(viewPager);
         setViewPager(viewPager);
 
+    }
 
-
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-
-        String userData = extras.getString("userData");
-        String name = "";
-        String role = "";
-
-        //TODO:Pasar esto a un metodo del objeto User.
-        try {
-            JSONObject usrDataJson = new JSONObject(userData);
-
-            name = usrDataJson.get("name").toString();
-            role = usrDataJson.get("role").toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        title = (TextView) findViewById(R.id.seekerTitleTextView);
-        title.setText("Bienvenido "+name+". Tu rol es de "+ role);
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SharedPreferences preferences = getSharedPreferences("UserSetting", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
     }
 
     private void requestPermission(){
@@ -97,7 +85,7 @@ public class SeekerHomeActivity extends AppCompatActivity {
         // check permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.w("TAG", "Exo:1234: ");
+
             ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
 
         }

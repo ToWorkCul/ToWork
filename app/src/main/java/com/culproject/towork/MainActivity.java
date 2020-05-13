@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private Map<String, Object> usersData;
+
+    User[] users = {};
+
+    ArrayList<User> userList = new ArrayList<User>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,27 +76,49 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users");
+        if (userExist()) {
+            SharedPreferences preferences = this.getSharedPreferences("UserSetting", Context.MODE_PRIVATE);
+            String role = preferences.getString("role", "");
 
-        myRef.child("test1").child("name").setValue("Edwin");
-
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot data) {
-                usersData = (Map<String, Object>) data.getValue();;
-                Log.w("TAG", "Exitoso: Data: " + usersData);
-                Log.w("TAG", "E---->: " + data.toString());
+            if (role.equals("servicer")) {
+                Intent intent = new Intent(this, ServicerHomeActivity.class);
+                startActivity(intent);
+                return;
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w("TAG", "Cancelado", databaseError.toException());
-                // TODO: Manejar escenario cuando falle
+            if (role.equals("seeker")) {
+                Intent intent = new Intent(this, SeekerHomeActivity.class);
+                startActivity(intent);
+                return;
             }
-        };
-        myRef.addValueEventListener(postListener);
+        } else {
+            // Busca Todo los usuarios
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("users");
+
+            ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot data) {
+                    usersData = (Map<String, Object>) data.getValue();
+
+                    for (DataSnapshot childDataSnapshot : data.getChildren()) {
+                        try {
+                            userList.add(new User(childDataSnapshot));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                    Log.w("TAG", "Cancelado", databaseError.toException());
+                }
+            };
+            myRef.addValueEventListener(postListener);
+        }
+
     }
 
     @Override
@@ -146,43 +177,64 @@ public class MainActivity extends AppCompatActivity {
 
     public void ingresar(View view) {
 
-        String email = textUsuario.getText().toString().trim();
+        String userName = textUsuario.getText().toString().trim();
         String password = textPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Intenta con 'Edwin' (Admin) o con 'Jorge' (User)", Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Campos invalidos", Toast.LENGTH_LONG).show();
             return;
         }
 
-        Log.w("TAG", "Mira--_->: " + usersData);
         if (usersData == null) {
             Toast.makeText(this,"Error de Red",Toast.LENGTH_LONG).show();
             return;
         }
-        //TODO: Crear objeto user con constructor para pasarle el user data y armar el usuario
-        Object userObject1 = usersData.get("test1");
-        Map<String, Object> userData1 = (Map<String, Object>) userObject1;
 
-        Object userObject2 = usersData.get("test2");
-        Map<String, Object> userData2 = (Map<String, Object>) userObject2;
+        User[] ts = {};
+        users = userList.toArray(ts);
 
-        if (userData1.containsValue(email)) {
-            Intent intent = new Intent(this, ServicerHomeActivity.class);
-            intent.putExtra("userData", userData1.toString());
-            startActivity(intent);
-            return;
+        for (User user: userList) {
+            Log.w("TAG", "Cancelado" + user.getName() + user.getPass());
+            Log.w("TAG", "Cancelado" + userName + password);
+            Log.w("TAG", "Cancelado" + user.getRole());
+            if (userName.equals(user.getName()) && password.equals(user.getPass())) {
+                //save user preference
+                saveUser(user.getId(), user.getRole());
+                Log.w("TAG", "2" + user.getRole());
+                if (user.getRole().equals("servicer")) {
+                    Intent intent = new Intent(this, ServicerHomeActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
+                if (user.getRole().equals("seeker")) {
+                    Log.w("TAG", "3" + user.getRole());
+                    Intent intent = new Intent(this, SeekerHomeActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
+            }
         }
 
-        if (userData2.containsValue(email)) {
-            Intent intent = new Intent(this, SeekerHomeActivity.class);
-            intent.putExtra("userData", userData2.toString());
-            startActivity(intent);
-            return;
-        }
+        Toast.makeText(this, "Combinacion invalida", Toast.LENGTH_LONG).show();
+    }
 
-        Toast.makeText(this, "Intenta con 'Edwin' (Admin) o con 'Jorge' (User)", Toast.LENGTH_LONG).show();
+   private void saveUser(String id, String role) {
+       SharedPreferences preferences = getSharedPreferences("UserSetting", Context.MODE_PRIVATE);
+       SharedPreferences.Editor editor = preferences.edit();
+       editor.putString("userID",id);
+       editor.putString("role",role);
+       editor.commit();
+   }
+
+   private Boolean userExist() {
+       SharedPreferences preferences = this.getSharedPreferences("UserSetting", Context.MODE_PRIVATE);
+       String userID = preferences.getString("userID", "");
+       return TextUtils.isEmpty(userID) == false;
     }
 
 
 }
+
 

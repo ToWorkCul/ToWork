@@ -21,7 +21,7 @@ public class Request{
     }
 
     public String getDescription() {
-        return description;
+        return "Si se selecciona un servicio de la lista de servicio o del mapa se debe manda a la vista de crear solicitud pero con el identificador de este servicio ";
     }
 
     public String getPrice() {
