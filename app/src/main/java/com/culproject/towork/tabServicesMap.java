@@ -74,7 +74,7 @@ public class tabServicesMap extends Fragment implements OnMapReadyCallback {
         //googleMap.addMarker(new MarkerOptions().position(new LatLng(10.790700, -74.763958)).title("statue of Liberty").snippet("Description"));
         //googleMap.addMarker(new MarkerOptions().position(new LatLng(10.790557, -74.763958)).title("statue of Liberty").snippet("Description"));
         //googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("statue of Liberty").snippet("Description"));
-        CameraPosition currentLocation = CameraPosition.builder().target(new LatLng(10.790557, -74.763958)).zoom(16).bearing(0).tilt(45).build();
+        CameraPosition currentLocation = CameraPosition.builder().target(new LatLng(10.790557, -74.763958)).zoom(17).bearing(0).tilt(45).build();
         if (latitude != 0.0 && longitude != 0.0) {
             //googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("statue of Liberty").snippet("Description"));
             //currentLocation = CameraPosition.builder().target(new LatLng(latitude, longitude)).zoom(16).bearing(0).tilt(45).build();
