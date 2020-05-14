@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 public class Service {
     private String id = "000000";
+    private String servicerID = "";
     private String name = "El Nombre";
     private String description = "Descripcion";
     private String lat = "20000.0";
@@ -21,6 +22,7 @@ public class Service {
         description = data.getString("description");
         lat = data.getString("lat");
         lon = data.getString("lon");
+        servicerID = data.getString("servicer_id");
     }
 
     public Service(DataSnapshot data) throws JSONException {
@@ -29,6 +31,7 @@ public class Service {
         description = data.child("description").getValue().toString();
         lat = data.child("lat").getValue().toString();
         lon = data.child("lon").getValue().toString();
+        servicerID = data.child("servicer_id").getValue().toString();
     }
 
     public String getId() {
@@ -49,5 +52,9 @@ public class Service {
 
     public String getLon() {
         return lon;
+    }
+
+    public String getServicerID() {
+        return servicerID;
     }
 }

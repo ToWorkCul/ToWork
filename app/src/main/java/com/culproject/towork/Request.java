@@ -1,5 +1,7 @@
 package com.culproject.towork;
 
+import com.google.firebase.database.DataSnapshot;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,6 +11,9 @@ public class Request{
     private String description = "Descripcion";
     private String price = "$200000";
     private String issueType = "Hardware";
+    private String issueSector = "Equipo de computo";
+    private String servicerID = "open";
+    private String userID = "";
     private String summary = "CPU no enciende";
 
     public Request(){}
@@ -20,8 +25,18 @@ public class Request{
         summary = data.getString("summary");
     }
 
+    public Request(DataSnapshot data) throws JSONException {
+        description = data.child("description").getValue().toString();
+        issueSector = data.child("issue_sector").getValue().toString();
+        issueType = data.child("issue_type").getValue().toString();
+        price = data.child("price").getValue().toString();
+        servicerID = data.child("servicer_id").getValue().toString();
+        userID = data.child("user_id").getValue().toString();
+        summary = data.child("description").getValue().toString();
+    }
+
     public String getDescription() {
-        return "Si se selecciona un servicio de la lista de servicio o del mapa se debe manda a la vista de crear solicitud pero con el identificador de este servicio ";
+        return description;
     }
 
     public String getPrice() {
@@ -34,5 +49,17 @@ public class Request{
 
     public String getSummary() {
         return summary;
+    }
+
+    public String getIssueSector() {
+        return issueSector;
+    }
+
+    public String getServicerID() {
+        return servicerID;
+    }
+
+    public String getUserID() {
+        return userID;
     }
 }

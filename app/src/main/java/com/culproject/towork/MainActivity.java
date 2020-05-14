@@ -194,21 +194,18 @@ public class MainActivity extends AppCompatActivity {
         users = userList.toArray(ts);
 
         for (User user: userList) {
-            Log.w("TAG", "Cancelado" + user.getName() + user.getPass());
-            Log.w("TAG", "Cancelado" + userName + password);
-            Log.w("TAG", "Cancelado" + user.getRole());
             if (userName.equals(user.getName()) && password.equals(user.getPass())) {
                 //save user preference
                 saveUser(user.getId(), user.getRole());
-                Log.w("TAG", "2" + user.getRole());
                 if (user.getRole().equals("servicer")) {
+                    cleanFields();
                     Intent intent = new Intent(this, ServicerHomeActivity.class);
                     startActivity(intent);
                     return;
                 }
 
                 if (user.getRole().equals("seeker")) {
-                    Log.w("TAG", "3" + user.getRole());
+                    cleanFields();
                     Intent intent = new Intent(this, SeekerHomeActivity.class);
                     startActivity(intent);
                     return;
@@ -232,6 +229,11 @@ public class MainActivity extends AppCompatActivity {
        SharedPreferences preferences = this.getSharedPreferences("UserSetting", Context.MODE_PRIVATE);
        String userID = preferences.getString("userID", "");
        return TextUtils.isEmpty(userID) == false;
+    }
+
+    private void cleanFields(){
+        textUsuario.setText("");
+        textPassword.setText("");
     }
 
 

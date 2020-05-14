@@ -2,10 +2,13 @@ package com.culproject.towork;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -38,12 +41,17 @@ import java.util.Map;
 public class ServicerHomeActivity extends AppCompatActivity {
 
     private TextView title;
+    private TextView indicator;
     private Button btnCreateService;
     private Button btnLookRequests;
     private FirebaseAuth firebaseAuth;
-
     private Map<String, Object> usersData;
-    Request[] requests = {new Request(), new Request(), new Request(), new Request(), new Request(), new Request()};
+    private ProgressDialog progressDialog;
+
+    Request[] requests = {};
+    ArrayList<Request> requestList = new ArrayList<Request>();
+    CustomAdapter customAdapter = new CustomAdapter();
+    ListView requestListView;
 
     public View.OnClickListener createServiceListener = new View.OnClickListener() {
         @Override
@@ -79,8 +87,10 @@ public class ServicerHomeActivity extends AppCompatActivity {
         btnLookRequests = (Button) findViewById(R.id.LookRequestsButton);
         btnLookRequests.setOnClickListener(lookRequestsListener);
 
-        ListView requestListView = (ListView)findViewById(R.id.servicerRequestListView);
-        CustomAdapter customAdapter = new CustomAdapter();
+
+        progressDialog = new ProgressDialog(this);
+
+        requestListView = (ListView) findViewById(R.id.servicerRequestListView);
         requestListView.setAdapter(customAdapter);
 
     }
@@ -89,16 +99,33 @@ public class ServicerHomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("requests");
+
+        progressDialog.setMessage("Cargando...");
+        progressDialog.show();
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot data) {
 
-                Log.w("TAG", "Exitoso: Data: " + data);
-                Log.w("TAG", "E---->: " + data.getKey());
+                Log.w("TAG", "Cargando..." + data.toString());
+                requestList.clear();
+                for (DataSnapshot childDataSnapshot : data.getChildren()) {
+                    progressDialog.dismiss();
+                    try {
+                        if (shouldAddRequest(childDataSnapshot.child("servicer_id").getValue().toString())) {
+                            requestList.add(new Request(childDataSnapshot));
+                            requestListView.setAdapter(customAdapter);
+                        }
 
+                    } catch (JSONException e) {
+                        progressDialog.dismiss();
+                        e.printStackTrace();
+                    }
+
+                }
             }
 
             @Override
@@ -118,6 +145,7 @@ public class ServicerHomeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.commit();
+        finish();
     }
 
     @Override
@@ -139,11 +167,21 @@ public class ServicerHomeActivity extends AppCompatActivity {
 
     }
 
+    private boolean shouldAddRequest(String servicerID) {
+        SharedPreferences preferences = this.getSharedPreferences("UserSetting", Context.MODE_PRIVATE);
+        String userID = preferences.getString("userID", "");
+
+        if (servicerID.equals(userID) || servicerID.equals("open")) {
+            return true;
+        }
+        return false;
+    }
+
     class CustomAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            return requests.length;
+            return requestList.toArray().length;
         }
 
         @Override
@@ -159,15 +197,30 @@ public class ServicerHomeActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = getLayoutInflater().inflate(R.layout.request_card_layout, null);
+
             TextView textViewSector = (TextView) convertView.findViewById(R.id.textViewSector);
             TextView textViewTipo = (TextView) convertView.findViewById(R.id.textViewTipo);
             TextView textViewDescripcion = (TextView) convertView.findViewById(R.id.textViewServiceDescripcion);
             TextView textViewPrecio = (TextView) convertView.findViewById(R.id.textViewPrecio);
+            TextView textIndicator = (TextView) convertView.findViewById(R.id.txtRequestIndicator);
+            TextView textBarIndicator = (TextView) convertView.findViewById(R.id.textViewBarIndicator);
 
-            textViewSector.setText("Equipos de Computos");
-            textViewTipo.setText("Hardware(Fisico)");
+            Request[] ts = {};
+            requests = requestList.toArray(ts);
+
+            textViewSector.setText(requests[position].getIssueSector());
+            textViewTipo.setText(requests[position].getIssueType());
             textViewDescripcion.setText(requests[position].getDescription());
             textViewPrecio.setText(requests[position].getPrice());
+            textIndicator.setText("Requerido");
+            textIndicator.setTextColor(ContextCompat.getColor(getBaseContext(),  R.color.colorAlert));
+            textBarIndicator.setBackgroundColor(ContextCompat.getColor(getBaseContext(),  R.color.colorAlert));
+
+            if (requests[position].getServicerID().equals("open")) {
+                textIndicator.setText("Abierto");
+                textBarIndicator.setBackgroundColor(ContextCompat.getColor(getBaseContext(),  R.color.colorPrimary));
+            }
+
 
             return convertView;
         }

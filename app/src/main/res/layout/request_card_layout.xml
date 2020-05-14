@@ -89,6 +89,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView16" />
 
     <TextView
+        android:id="@+id/textViewBarIndicator"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginStart="50dp"
@@ -98,5 +99,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewPrecio" />
+
+    <TextView
+        android:id="@+id/txtRequestIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:alpha="0"
+        android:text="Abierto"
+        android:textColor="#107BE4"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewBarIndicator"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

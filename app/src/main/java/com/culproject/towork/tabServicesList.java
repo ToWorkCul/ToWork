@@ -1,11 +1,15 @@
 package com.culproject.towork;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,20 +36,24 @@ public class tabServicesList extends Fragment {
     private FirebaseAuth firebaseAuth;
     private Map<String, Object> usersData;
 
-
+    CustomAdapter customAdapter = new CustomAdapter();
+    ListView serviceListView;
     Service[] services = {};
-
     ArrayList<Service> serviceList = new ArrayList<Service>();
+    Context context = getContext();
+
+    private ProgressDialog progressDialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_services_list, container, false);
 
-        ListView serviceListView =  (ListView) view.findViewById(R.id.servicesListView);
-
-        CustomAdapter customAdapter = new CustomAdapter();
+        progressDialog = new ProgressDialog(getContext());
+        serviceListView =  (ListView) view.findViewById(R.id.servicesListView);
         serviceListView.setAdapter(customAdapter);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+       loadListListener();
 
         return view;
     }
@@ -57,21 +65,28 @@ public class tabServicesList extends Fragment {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("services");
 
+        progressDialog.setMessage("Cargando...");
+        progressDialog.show();
+
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot data) {
-                Log.w("TAG", "services ---->" + data.toString());
 
+                Log.w("TAG", "Cargando..." + data.toString());
+                serviceList.clear();
                 for (DataSnapshot childDataSnapshot : data.getChildren()) {
                     //Service services = childDataSnapshot.getValue(Service.class);
                     //JSONObject jo = new JSONObject();
                     Log.w("TAG", "services ---->" + childDataSnapshot.getKey());
                     Log.w("TAG", "services ---->" + childDataSnapshot.child("name").getValue());
                     Log.w("TAG", "services ---->" + childDataSnapshot.getChildren().toString());
-
+                    progressDialog.dismiss();
                     try {
                         serviceList.add(new Service(childDataSnapshot));
+                        serviceListView.setAdapter(customAdapter);
+
                     } catch (JSONException e) {
+                        progressDialog.dismiss();
                         e.printStackTrace();
                     }
 
@@ -88,6 +103,21 @@ public class tabServicesList extends Fragment {
         myRef.addValueEventListener(postListener);
     }
 
+    private void loadListListener() {
+        serviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Service[] ts = {};
+                services = serviceList.toArray(ts);
+                String servicerID = services[position].getServicerID();
+
+                Intent intent = new Intent(getContext(), CreateRequestActivity.class);
+                intent.putExtra("servicerID", servicerID);
+                startActivity(intent);
+            }
+        });
+    }
+
     class CustomAdapter extends BaseAdapter {
 
         @Override
@@ -96,9 +126,7 @@ public class tabServicesList extends Fragment {
         }
 
         @Override
-        public Object getItem(int position) {
-            return null;
-        }
+        public Object getItem(int position) {return null;}
 
         @Override
         public long getItemId(int position) {
@@ -114,6 +142,7 @@ public class tabServicesList extends Fragment {
 
             Service[] ts = {};
             services = serviceList.toArray(ts);
+
             textViewServiceName.setText(services[position].getName());
             textViewDescripcion.setText(services[position].getDescription());
 
