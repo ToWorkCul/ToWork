@@ -6,52 +6,52 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Service {
-    private String id = "000000";
+    private String _id = "000000";
     private String servicerID = "";
-    private String name = "El Nombre";
-    private String description = "Descripcion";
-    private String lat = "20000.0";
-    private String lon = "00000.0";
+    private String _name = "El Nombre";
+    private String _description = "Descripcion";
+    private String _lat = "20000.0";
+    private String _lon = "00000.0";
 
 
     public Service(){}
 
     public Service(JSONObject data) throws JSONException {
-        id = data.getString("id");
-        name = data.getString("name");
-        description = data.getString("description");
-        lat = data.getString("lat");
-        lon = data.getString("lon");
+        _id = data.getString("id");
+        _name = data.getString("name");
+        _description = data.getString("description");
+        _lat = data.getString("lat");
+        _lon = data.getString("lon");
         servicerID = data.getString("servicer_id");
     }
 
     public Service(DataSnapshot data) throws JSONException {
-        id = data.child("id").getValue().toString();
-        name = data.child("name").getValue().toString();
-        description = data.child("description").getValue().toString();
-        lat = data.child("lat").getValue().toString();
-        lon = data.child("lon").getValue().toString();
+        _id = data.child("id").getValue().toString();
+        _name = data.child("name").getValue().toString();
+        _description = data.child("description").getValue().toString();
+        _lat = data.child("lat").getValue().toString();
+        _lon = data.child("lon").getValue().toString();
         servicerID = data.child("servicer_id").getValue().toString();
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public String getName() {
-        return name;
+        return _name;
     }
 
     public String getDescription() {
-        return description;
+        return _description;
     }
 
     public String getLat() {
-        return lat;
+        return _lat;
     }
 
     public String getLon() {
-        return lon;
+        return _lon;
     }
 
     public String getServicerID() {

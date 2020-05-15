@@ -42,6 +42,8 @@ public class tabServicesList extends Fragment {
     ArrayList<Service> serviceList = new ArrayList<Service>();
     Context context = getContext();
 
+    ValueEventListener postListener;
+
     private ProgressDialog progressDialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,18 +70,12 @@ public class tabServicesList extends Fragment {
         progressDialog.setMessage("Cargando...");
         progressDialog.show();
 
-        ValueEventListener postListener = new ValueEventListener() {
+        postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot data) {
 
-                Log.w("TAG", "Cargando..." + data.toString());
                 serviceList.clear();
                 for (DataSnapshot childDataSnapshot : data.getChildren()) {
-                    //Service services = childDataSnapshot.getValue(Service.class);
-                    //JSONObject jo = new JSONObject();
-                    Log.w("TAG", "services ---->" + childDataSnapshot.getKey());
-                    Log.w("TAG", "services ---->" + childDataSnapshot.child("name").getValue());
-                    Log.w("TAG", "services ---->" + childDataSnapshot.getChildren().toString());
                     progressDialog.dismiss();
                     try {
                         serviceList.add(new Service(childDataSnapshot));

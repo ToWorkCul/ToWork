@@ -7,6 +7,20 @@
     android:background="@drawable/login_background"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:alpha="0"
+        android:onClick="registrar"
+        android:text="Registrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
@@ -36,6 +50,7 @@
             android:ems="10"
             android:hint="Ingrese Usuario"
             android:inputType="textEmailAddress"
+            android:textColor="#000000"
             android:textColorHighlight="#070707"
             android:textColorLink="#0C0C0C" />
 
@@ -46,6 +61,7 @@
             android:ems="10"
             android:hint="Ingrese Contraseña"
             android:inputType="textPassword"
+            android:textColor="#000000"
             android:textColorHighlight="#0B0A0A"
             android:textColorLink="#050505" />
 
@@ -53,23 +69,13 @@
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
             android:onClick="ingresar"
-            android:text="Ingresar" />
+            android:text="Ingresar"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnSignUp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:alpha="0"
-        android:onClick="registrar"
-        android:text="Registrar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <ImageView
         android:id="@+id/imageView"

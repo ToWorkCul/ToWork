@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<User> userList = new ArrayList<User>();
 
+    ValueEventListener postListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("users");
 
-            ValueEventListener postListener = new ValueEventListener() {
+            postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot data) {
                     usersData = (Map<String, Object>) data.getValue();

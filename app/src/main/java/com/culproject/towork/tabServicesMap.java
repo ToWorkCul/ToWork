@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,15 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
 
 public class tabServicesMap extends Fragment implements OnMapReadyCallback {
 
@@ -38,6 +48,11 @@ public class tabServicesMap extends Fragment implements OnMapReadyCallback {
     MapView mapView;
     View mView;
 
+    ListView serviceListView;
+    Service[] services = {};
+    ArrayList<Service> serviceList = new ArrayList<Service>();
+
+    public ValueEventListener postListener;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,11 +69,36 @@ public class tabServicesMap extends Fragment implements OnMapReadyCallback {
             mapView.onResume();
             mapView.getMapAsync(this);
         }
-
-
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("services");
+        postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot data) {
+                serviceList.clear();
+                for (DataSnapshot childDataSnapshot : data.getChildren()) {
+                    try {
+                        serviceList.add(new Service(childDataSnapshot));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                loadMarkers();
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "Cancelado", databaseError.toException());
+                // TODO: Manejar escenario cuando falle
+            }
+        };
+        myRef.addValueEventListener(postListener);
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -66,25 +106,29 @@ public class tabServicesMap extends Fragment implements OnMapReadyCallback {
         mGoogleMap = googleMap;
         googleMap.setMapType((googleMap.MAP_TYPE_NORMAL));
 
+
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentLocations", Context.MODE_PRIVATE);
         Float latitude = preferences.getFloat("latitude", (float) 0.0);
         Float longitude = preferences.getFloat("longitude", (float) 0.0);
         Log.w("TAG", "lat: " + latitude);
 
-        //googleMap.addMarker(new MarkerOptions().position(new LatLng(10.790700, -74.763958)).title("statue of Liberty").snippet("Description"));
-        //googleMap.addMarker(new MarkerOptions().position(new LatLng(10.790557, -74.763958)).title("statue of Liberty").snippet("Description"));
-        //googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("statue of Liberty").snippet("Description"));
         CameraPosition currentLocation = CameraPosition.builder().target(new LatLng(10.790557, -74.763958)).zoom(17).bearing(0).tilt(45).build();
         if (latitude != 0.0 && longitude != 0.0) {
-            //googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("statue of Liberty").snippet("Description"));
-            //currentLocation = CameraPosition.builder().target(new LatLng(latitude, longitude)).zoom(16).bearing(0).tilt(45).build();
-            Log.w("TAG", "lat: " + latitude);
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Ubicacion Actual").snippet("Tu Ubicacion"));
+            currentLocation = CameraPosition.builder().target(new LatLng(latitude, longitude)).zoom(17).bearing(0).tilt(45).build();
+            Log.w("TAG", "lat: " + latitude + " lon; "+ longitude);
         }
-
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(10.790557, -74.763958)).title("Casa de Edwin").snippet("Mi casa"));
 
 
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(currentLocation));
+    }
+
+    private void loadMarkers() {
+        for (Service service: serviceList) {
+            Float lat = Float.valueOf(service.getLat());
+            Float lon = Float.valueOf(service.getLon());
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(service.getName()).snippet(service.getDescription()));
+        }
     }
 
 }

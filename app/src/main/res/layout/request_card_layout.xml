@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="#F4F5F6">
+    android:background="#ffffff">
 
     <TextView
         android:id="@+id/textView11"
@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Tipo:"
+        android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/textViewSector"
         app:layout_constraintTop_toTopOf="@+id/textViewSector" />
 
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Valor"
+        android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
@@ -32,6 +34,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
         android:text="Sector:"
+        android:textColor="#000000"
         app:layout_constraintEnd_toStartOf="@+id/textViewSector"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Valor"
+        android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
@@ -54,6 +58,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="21dp"
         android:text="Valor"
+        android:textColor="#000000"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +71,7 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="10dp"
         android:text="Descripcion:"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -76,6 +82,7 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="10dp"
         android:text="Precio:"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewServiceDescripcion" />
 
@@ -85,6 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Valor"
+        android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/textView16"
         app:layout_constraintTop_toTopOf="@+id/textView16" />
 

@@ -131,12 +131,10 @@ public class SeekerHomeActivity extends AppCompatActivity {
             public void onSuccess(Location location) {
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
-                    Log.w("TAG", "Exitoso:1234: .----" + location.getLongitude());
                     SharedPreferences preferences = getSharedPreferences("CurrentLocations", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putFloat("latitude", (float) location.getLatitude());
-                    editor.putFloat("longitude", (float) location.getLatitude());
-                    Log.w("TAG", "lat: " + location.getLatitude());
+                    editor.putFloat("longitude", (float) location.getLongitude());
                     editor.commit();
                 }
             }
@@ -169,37 +167,6 @@ public class SeekerHomeActivity extends AppCompatActivity {
         tabViewPagerAdapter.addFragment(new tabServicesList(), "Lista de Servicios");
 
         viewPager.setAdapter(tabViewPagerAdapter);
-    }
-
-    private void saveAmountOfrequests() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("requests");
-
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot data) {
-                requestList.clear();
-                for (DataSnapshot childDataSnapshot : data.getChildren()) {
-                    requestList.add(new Request());
-                }
-                saveAmountrequest();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w("TAG", "Cancelado", databaseError.toException());
-            }
-        };
-        myRef.addValueEventListener(postListener);
-    }
-
-
-    private void saveAmountrequest() {
-        SharedPreferences preferences = getSharedPreferences("UserSetting", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        int size = requestList.size();
-        editor.putInt("requestAmount", size);
-        editor.commit();
     }
 
 }

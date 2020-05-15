@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#F4F5F6">
+    android:background="#ffffff">
 
     <TextView
         android:id="@+id/textView9"
@@ -14,6 +14,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
         android:text="Nombre:"
+        android:textColor="#000000"
         app:layout_constraintEnd_toStartOf="@+id/textViewSector"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Valor"
+        android:textColor="#000000"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView9"
         app:layout_constraintStart_toEndOf="@+id/textView9" />
 
@@ -35,10 +38,11 @@
         android:layout_height="20dp"
         android:layout_marginStart="21dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="12dp"
         android:text="Valor"
+        android:textColor="#000000"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/serviceCardLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -49,6 +53,7 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="10dp"
         android:text="Descripcion:"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
