@@ -149,13 +149,12 @@ public class tabServicesMap extends Fragment implements GoogleMap.OnMarkerClickL
                     .position(new LatLng(lat, lon))
                     .title(service.getName())
                     .snippet(service.getDescription())
-                    .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.mipmap.logo_hands))));
+                    .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.mipmap.praying_hands_marker))));
                     //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         }
     }
 
     private Bitmap getMarkerBitmapFromView(@DrawableRes int resId) {
-
         View customMarkerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker, null);
         ImageView markerImageView = (ImageView) customMarkerView.findViewById(R.id.profile_image);
         markerImageView.setImageResource(resId);

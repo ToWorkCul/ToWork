@@ -10,5 +10,5 @@
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
         android:contentDescription="@null"
-        android:src="@mipmap/logo_hands" />
+        android:src="@mipmap/praying_hands_marker" />
 </FrameLayout>
