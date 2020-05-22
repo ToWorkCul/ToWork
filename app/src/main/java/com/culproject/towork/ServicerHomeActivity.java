@@ -126,21 +126,22 @@ public class ServicerHomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot data) {
 
-                Log.w("TAG", "Cargando..." + data.toString());
+                Log.w("TAG", "Cargando..." + data.getChildren().toString());
                 requestList.clear();
                 for (DataSnapshot childDataSnapshot : data.getChildren()) {
                     progressDialog.dismiss();
-                    try {
-                        if (shouldAddRequest(childDataSnapshot.child("servicer_id").getValue().toString())) {
-                            requestList.add(new Request(childDataSnapshot));
-                            requestListView.setAdapter(customAdapter);
+                    if (childDataSnapshot.getChildrenCount() == 6) {
+                        try {
+                            if (shouldAddRequest(childDataSnapshot.child("servicer_id").getValue().toString())) {
+                                requestList.add(new Request(childDataSnapshot));
+                                requestListView.setAdapter(customAdapter);
+                            }
+
+                        } catch (JSONException e) {
+                            progressDialog.dismiss();
+                            e.printStackTrace();
                         }
-
-                    } catch (JSONException e) {
-                        progressDialog.dismiss();
-                        e.printStackTrace();
                     }
-
                 }
             }
 
@@ -177,10 +178,52 @@ public class ServicerHomeActivity extends AppCompatActivity {
             case R.id.createServiceMenuItem:
                 Intent intent = new Intent(getBaseContext(), CreateServiceActivity.class);
                 startActivity(intent);
+            case  R.id.actualizarListaSolicitudes:
+                updateRequests();
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void updateRequests() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("requests");
+
+        progressDialog.setMessage("Cargando...");
+        progressDialog.show();
+
+        postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot data) {
+
+                Log.w("TAG", "Cargando..." + data.getChildren().toString());
+                requestList.clear();
+                for (DataSnapshot childDataSnapshot : data.getChildren()) {
+                    progressDialog.dismiss();
+                    if (childDataSnapshot.getChildrenCount() == 6) {
+                        try {
+                            if (shouldAddRequest(childDataSnapshot.child("servicer_id").getValue().toString())) {
+                                requestList.add(new Request(childDataSnapshot));
+                                requestListView.setAdapter(customAdapter);
+                            }
+
+                        } catch (JSONException e) {
+                            progressDialog.dismiss();
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "Cancelado", databaseError.toException());
+                // TODO: Manejar escenario cuando falle
+            }
+        };
+        myRef.addValueEventListener(postListener);
     }
 
     private void requestPermission(){

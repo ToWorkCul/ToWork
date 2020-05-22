@@ -75,17 +75,19 @@ public class tabServicesList extends Fragment {
             public void onDataChange(DataSnapshot data) {
 
                 serviceList.clear();
+                Log.w("TAG", "Cargando..." + data.getChildren().toString());
                 for (DataSnapshot childDataSnapshot : data.getChildren()) {
                     progressDialog.dismiss();
-                    try {
-                        serviceList.add(new Service(childDataSnapshot));
-                        serviceListView.setAdapter(customAdapter);
 
-                    } catch (JSONException e) {
-                        progressDialog.dismiss();
-                        e.printStackTrace();
+                    if (childDataSnapshot.getChildrenCount() == 6) {
+                        try {
+                            serviceList.add(new Service(childDataSnapshot));
+                            serviceListView.setAdapter(customAdapter);
+                        } catch (JSONException e) {
+                            progressDialog.dismiss();
+                            e.printStackTrace();
+                        }
                     }
-
                 }
             }
 

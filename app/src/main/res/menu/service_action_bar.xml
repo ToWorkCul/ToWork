@@ -6,4 +6,7 @@
         android:id="@+id/createServiceMenuItem"
         android:title="@string/crear_servicio"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/actualizarListaSolicitudes"
+        android:title="@string/actualizar" />
 </menu>
